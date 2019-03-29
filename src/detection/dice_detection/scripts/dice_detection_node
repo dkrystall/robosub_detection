@@ -4,29 +4,25 @@
 This ROS node uses the object detector class to run detection.
 """
 
-from object_detector import ObjectDetector
+from dice_detector import DiceDetector
 from PIL import Image
 
 #ros
 import rospy
 from sensor_msgs.msg import Image
-from cv_bridge import CvBridge, CvBridgeError
-from object_detection.msg import DetectionResult
-from object_detection.msg import DetectionResults
+from dice_detection.msg import DetectionResult
+from dice_detection.msg import DetectionResults
 
 
-class ObjectDetectionNode:
+class DiceDetectionNode:
 
     def __init__(self):
 
-        rospy.init_node('object_detection')
+        rospy.init_node('dice_detection')
         rospy.Subscriber('/camera_node/image_raw', Image, callback=self.image_update_callback, queue_size=5)
 
         self.current_frame = None
         self.bridge = CvBridge()
-
-        rospy.loginfo("Object Detection Initializing")
-        rospy.loginfo("Tiny Yolo V3")
 
         self.visualize = rospy.get_param("/object_detection_node/visualization")
         self.model_path = rospy.get_param("/object_detection_node/model_path")
@@ -36,15 +32,15 @@ class ObjectDetectionNode:
         self.score_threshold = rospy.get_param("/object_detection_node/score_threshold")
         self.input_size = (416, 416)
 
-        self.detector = ObjectDetector(model_path=self.model_path,
+        self.detector = DiceDetector(model_path=self.model_path,
                                        classes_path=self.classes_path,
                                        anchors_path=self.anchors_path,
                                        score_threshold=self.score_threshold,
                                        iou_threshold=self.iou_threshold,
                                        size=self.input_size)
 
-        detection_image_pub = rospy.Publisher('/detection/object/detection_visualization/', Image, queue_size=10)
-        detection_results_pub = rospy.Publisher('/detection/object/detection_result', DetectionResults, queue_size=10)
+        detection_image_pub = rospy.Publisher('/detection/dice_detection/detection_visualization/', Image, queue_size=10)
+        detection_results_pub = rospy.Publisher('/detection/dice_detection/detection_result', DetectionResults, queue_size=10)
         rate = rospy.Rate(15)
 
         while not rospy.is_shutdown():
