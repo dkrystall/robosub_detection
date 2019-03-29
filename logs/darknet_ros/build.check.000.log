@@ -1,0 +1,1 @@
+/usr/bin/cmake -H/home/david/yolocam_catkin_ws/src/darknet_ros/darknet_ros -B/home/david/yolocam_catkin_ws/build/darknet_ros --check-build-system CMakeFiles/Makefile.cmake 0
