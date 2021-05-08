@@ -10,7 +10,7 @@ numpy==1.14.5
 termcolor==1.1.0
 catkin_pkg==0.4.5
 matplotlib==2.2.2
-eventlet==0.23.0
+eventlet==0.31.0
 Flask==1.0.2
 Pillow==7.1.0
 autumn==0.5.1
